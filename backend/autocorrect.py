@@ -12,14 +12,37 @@ javascript_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-javascript
 javascript_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-javascript")
 javascript_fill_mask = pipeline('fill-mask', model=javascript_model, tokenizer=javascript_tokenizer)
 
+c_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-c")
+c_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-c")
+c_fill_mask = pipeline('fill-mask', model=c_model, tokenizer=c_tokenizer)
+
+cpp_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-cpp")
+cpp_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-cpp")
+cpp_fill_mask = pipeline('fill-mask', model=cpp_model, tokenizer=cpp_tokenizer)
+
+java_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-java")
+java_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-java")
+java_fill_mask = pipeline('fill-mask', model=java_model, tokenizer=java_tokenizer)
+
+tokenizer = AutoTokenizer.from_pretrained("microsoft/codebert-base")
+model = AutoModelForMaskedLM.from_pretrained("microsoft/codebert-base")
+fill_mask = pipeline('fill-mask', model=model, tokenizer=tokenizer)
+
 
 def get_fill_mask(lang):
     if lang == "python":
         return python_fill_mask
     elif lang == "javascript":
         return javascript_fill_mask
+    elif lang == "c":
+        return c_fill_mask
+    elif lang == "cpp":
+        return cpp_fill_mask
+    elif lang == "java":
+        return java_fill_mask
     else:
-        raise ValueError("Language not supported")
+        print("Using default fill mask", lang)
+        return fill_mask
 
 
 def merge_outputs(outputs):
