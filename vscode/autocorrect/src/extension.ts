@@ -7,29 +7,11 @@ export async function activate(context: vscode.ExtensionContext) {
 
   let timeout: NodeJS.Timer | undefined = undefined;
 
-  // create a decorator type that we use to decorate small numbers
-  const smallNumberDecorationType =
-    vscode.window.createTextEditorDecorationType({
-      borderWidth: "1px",
-      borderStyle: "solid",
-      overviewRulerColor: "blue",
-      overviewRulerLane: vscode.OverviewRulerLane.Right,
-      light: {
-        // this color will be used in light color themes
-        borderColor: "darkblue",
-      },
-      dark: {
-        // this color will be used in dark color themes
-        borderColor: "lightblue",
-      },
-    });
-
   // create a decorator type that we use to decorate large numbers
-  const largeNumberDecorationType =
+  const contextErrorDecorationType =
     vscode.window.createTextEditorDecorationType({
-      cursor: "crosshair",
       // use a themable color. See package.json for the declaration and default values.
-      backgroundColor: { id: "myextension.largeNumberBackground" },
+      backgroundColor: { id: "myextension.contextErrorBackground" },
     });
 
   let activeEditor = vscode.window.activeTextEditor;
@@ -53,7 +35,7 @@ export async function activate(context: vscode.ExtensionContext) {
     );
 
     activeEditor.setDecorations(
-      largeNumberDecorationType,
+      contextErrorDecorationType,
       suggestionDecorations
     );
   }

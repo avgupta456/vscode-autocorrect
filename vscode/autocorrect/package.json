@@ -19,8 +19,8 @@
   "contributes": {
     "colors": [
       {
-        "id": "myextension.largeNumberBackground",
-        "description": "Background decoration color for large numbers",
+        "id": "myextension.contextErrorBackground",
+        "description": "Background decoration color for context error",
         "defaults": {
           "dark": "#FF000055",
           "light": "#FF000055",
