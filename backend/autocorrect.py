@@ -108,10 +108,6 @@ def autocorrect(text, line, lang):
         merged_outputs = merge_outputs(outputs)
         if len(merged_outputs) < 2:
             continue
-        
-        max_output = max(merged_outputs.values())
-        if max_output < 0.4:
-            continue
 
         best_output, best_ratio = get_best_output(prev, merged_outputs)
         # print(i, "\t", prev, "\t", best_output, "\t", best_ratio)
