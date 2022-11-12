@@ -31,6 +31,7 @@ jupyter-client==7.4.5
 jupyter-core==5.0.0
 jupyter-server==1.23.1
 jupyterlab-pygments==0.2.2
+Levenshtein==0.20.8
 MarkupSafe==2.1.1
 matplotlib-inline==0.1.6
 mistune==2.0.4
@@ -61,6 +62,7 @@ pywin32==305
 pywinpty==2.0.9
 PyYAML==6.0
 pyzmq==24.0.1
+rapidfuzz==2.13.2
 regex==2022.10.31
 requests==2.28.1
 Send2Trash==1.8.0
