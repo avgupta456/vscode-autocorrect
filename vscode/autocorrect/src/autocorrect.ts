@@ -11,9 +11,16 @@ export function getSuggestions(activeEditor: vscode.TextEditor) {
     return [];
   }
 
+  const mousePosition = activeEditor?.selection.active;
+  if (!mousePosition) {
+    return [];
+  }
+
+  console.log(mousePosition);
+
   fetch(url, {
     method: "POST",
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({ text, line: mousePosition.line }),
     headers: {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "Content-Type": "application/json",

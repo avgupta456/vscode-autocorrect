@@ -13,6 +13,7 @@ def get_best_output(outputs):
     return max(probs.items(), key=lambda x: x[1])
 
 
-def autocorrect(text):
-    print(text)
+def autocorrect(text, line):
+    curr_line = text.split("\n")[line]
+    print(curr_line)
     return []
