@@ -75,7 +75,11 @@ export async function activate(context: vscode.ExtensionContext) {
           `command:${command}?${encodeURIComponent(JSON.stringify(args))}`
         );
         const content = new vscode.MarkdownString(
-          "[" + suggestion[1] + "](" + commandUri + ") (click to autocorrect)"
+          "**Autocorrect suggests:**  \n[" +
+            suggestion[1] +
+            "](" +
+            commandUri +
+            ") (click to autocorrect)"
         );
         content.isTrusted = true;
         const decoration = {
