@@ -11,7 +11,7 @@ export async function activate(context: vscode.ExtensionContext) {
   // create a decorator type that we use to decorate large numbers
   const contextErrorDecorationType =
     vscode.window.createTextEditorDecorationType({
-      textDecoration: "underline wavy blue",
+      textDecoration: "underline wavy #4073C4",
     });
 
   /*
