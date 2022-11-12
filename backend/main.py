@@ -14,7 +14,7 @@ def read_root():
 
 @app.get("/test_mask")
 async def test_mask():
-    text = "if (x is not None) or (x > 0)"
+    text = "if (x is not None) or (x > 0):"
     line = 0
     return {"suggestions": autocorrect(text, line)}
 
