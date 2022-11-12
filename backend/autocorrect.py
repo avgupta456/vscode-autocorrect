@@ -71,14 +71,14 @@ def tokenize(lines, line):
 
 def get_best_output(prev, merged_outputs):
     merged_outputs = sorted(merged_outputs.items(), key=lambda x: -x[1])
-    best_output, best_ratio = merged_outputs[0][0], merged_outputs[0][1] / merged_outputs[1][1]
+    best_output, best_ratio = merged_outputs[0][0], merged_outputs[0][1] / merged_outputs[2][1]
     dist_outputs = {}
     for key, value in merged_outputs:
         dist = distance(prev, key)
         new_prob = value * 0.2 ** dist
         dist_outputs[key] = new_prob
     dist_outputs = sorted(dist_outputs.items(), key=lambda x: -x[1])
-    new_output, new_ratio = dist_outputs[0][0], dist_outputs[0][1] / dist_outputs[1][1]
+    new_output, new_ratio = dist_outputs[0][0], dist_outputs[0][1] / dist_outputs[2][1]
     if new_ratio > best_ratio:
         best_output = new_output
         best_ratio = new_ratio
@@ -106,7 +106,8 @@ def autocorrect(text, line, lang):
 
         outputs = fill_mask(prev_lines + string + next_lines)
         merged_outputs = merge_outputs(outputs)
-        if len(merged_outputs) < 2:
+        print(merged_outputs)
+        if len(merged_outputs) < 3:
             continue
 
         best_output, best_ratio = get_best_output(prev, merged_outputs)
