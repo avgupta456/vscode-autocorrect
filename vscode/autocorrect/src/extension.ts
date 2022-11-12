@@ -1,4 +1,5 @@
 import * as vscode from "vscode";
+import { getSuggestions } from "./autocorrect";
 
 // this method is called when vs code is activated
 export function activate(context: vscode.ExtensionContext) {
@@ -39,7 +40,8 @@ export function activate(context: vscode.ExtensionContext) {
     }
     const regEx = /\d+/g;
     const text = activeEditor.document.getText();
-    console.log(text);
+    const suggestions = getSuggestions(activeEditor);
+    console.log("Suggestions", suggestions);
     const smallNumbers: vscode.DecorationOptions[] = [];
     const largeNumbers: vscode.DecorationOptions[] = [];
     let match;
