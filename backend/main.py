@@ -11,6 +11,13 @@ app = FastAPI()
 def read_root():
     return {"Hello": "World"}
 
+
+@app.get("/test_mask")
+async def test_mask():
+    text = "if (x is not None) or (x > 0)"
+    line = 0
+    return {"suggestions": autocorrect(text, line)}
+
 @app.post("/mask")
 async def mask(request: Request):
     body = await request.json()

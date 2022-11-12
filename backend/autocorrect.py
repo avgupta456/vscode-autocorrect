@@ -38,6 +38,7 @@ def autocorrect(text, line):
         curr_token_strings[i] = prev
         outputs = fill_mask(string)
         best_output, best_prob = get_best_output(outputs)
+        print(i, prev, best_output, best_prob)
         if best_output.strip() != prev.strip() and best_prob > 0.8:
             print("CHANGE {", prev, "} to {", best_output, "}")
             start = cumulative_lengths[curr_tokens[i].start[0] - 1] + curr_tokens[i].start[1]
