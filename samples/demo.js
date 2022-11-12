@@ -1,11 +1,20 @@
-// Example 1:
-// Autocorrect the word "imprt" to "import"
-
-// Template:
 // imprt { useState } from 'react';
 
 
 imprt { useState } from 'react';
 
 
-// TODO: Add more examples
+// console.print("Hello World");
+
+
+console.print("Hello World"); 
+
+
+// function add(a, b) {
+//     return a + c; 
+// }
+
+
+function add(a, b) {
+  return a + c; 
+}
