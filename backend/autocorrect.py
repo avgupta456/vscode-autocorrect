@@ -56,20 +56,29 @@ def autocorrect(text, line):
 
     best_suggestion = 0
     suggestions = []
+    prev_lines = "".join(lines[max(0, line-2):line])
+    next_lines = "".join(lines[line+1:line+3])
     for i in range(len(curr_tokens)):
         prev = curr_token_strings[i]
+        if len(prev.strip()) == 0:
+            continue
+
         curr_token_strings[i] = "<mask>"
         string = " ".join(curr_token_strings).strip()
         curr_token_strings[i] = prev
 
-        outputs = fill_mask(string)
+        outputs = fill_mask(prev_lines + string + next_lines)
         merged_outputs = merge_outputs(outputs)
         if len(merged_outputs) < 2:
+            continue
+        
+        max_output = max(merged_outputs.values())
+        if max_output < 0.4:
             continue
 
         best_output, best_ratio = get_best_output(prev, merged_outputs)
         # print(i, "\t", prev, "\t", best_output, "\t", best_ratio)
-        if best_output.strip() != prev.strip() and len(best_output.strip()) > 0 and best_ratio > 10:
+        if best_output.strip() != prev.strip() and len(best_output.strip()) > 0 and best_ratio > 5:
             print("CHANGE {", prev, "} to {", best_output, "} (", best_ratio, ")")
             start = line_offset + curr_tokens[i].start[1]
             end = line_offset + curr_tokens[i].end[1]
