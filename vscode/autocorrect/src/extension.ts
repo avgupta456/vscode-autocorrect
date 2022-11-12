@@ -62,6 +62,8 @@ export async function activate(context: vscode.ExtensionContext) {
     if (activeEditor === undefined) {
       return;
     }
+
+    // get current document language
     const suggestions = await getSuggestions(activeEditor);
 
     const suggestionDecorations: vscode.DecorationOptions[] = suggestions.map(

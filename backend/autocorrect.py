@@ -1,13 +1,26 @@
 from collections import defaultdict
 from tokenize import generate_tokens
-import re
 
 from Levenshtein import distance
 from transformers import AutoTokenizer, AutoModelForMaskedLM, pipeline
 
-tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-python")
-model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-python")
-fill_mask = pipeline('fill-mask', model=model, tokenizer=tokenizer)
+python_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-python")
+python_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-python")
+python_fill_mask = pipeline('fill-mask', model=python_model, tokenizer=python_tokenizer)
+
+javascript_tokenizer = AutoTokenizer.from_pretrained("neulab/codebert-javascript")
+javascript_model = AutoModelForMaskedLM.from_pretrained("neulab/codebert-javascript")
+javascript_fill_mask = pipeline('fill-mask', model=javascript_model, tokenizer=javascript_tokenizer)
+
+
+def get_fill_mask(lang):
+    if lang == "python":
+        return python_fill_mask
+    elif lang == "javascript":
+        return javascript_fill_mask
+    else:
+        raise ValueError("Language not supported")
+
 
 def merge_outputs(outputs):
     probs = defaultdict(float)
@@ -49,8 +62,9 @@ def get_best_output(prev, merged_outputs):
     return best_output, best_ratio
     
 
+def autocorrect(text, line, lang):
+    fill_mask = get_fill_mask(lang)
 
-def autocorrect(text, line):
     lines = [x + "\n" for x in text.split("\n")]
     curr_tokens, curr_token_strings, line_offset = tokenize(lines, line)
 

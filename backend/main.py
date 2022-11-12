@@ -27,4 +27,7 @@ async def mask(request: Request):
     if "line" not in body:
         raise HTTPException(status_code=400, detail="Missing line")
     line = body["line"]
-    return {"suggestions": autocorrect(text, line)}
+    if "lang" not in body:
+        raise HTTPException(status_code=400, detail="Missing lang")
+    lang = body["lang"]
+    return {"suggestions": autocorrect(text, line, lang)}

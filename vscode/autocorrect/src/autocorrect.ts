@@ -20,6 +20,7 @@ export async function getSuggestions(activeEditor: vscode.TextEditor) {
     body: JSON.stringify({
       text,
       line: mousePosition.line,
+      lang: activeEditor?.document.languageId,
     }),
     // eslint-disable-next-line @typescript-eslint/naming-convention
     headers: { "Content-Type": "application/json" },
