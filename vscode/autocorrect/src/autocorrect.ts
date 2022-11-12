@@ -3,9 +3,7 @@ import fetch from "node-fetch";
 
 const url = "http://localhost:5000/mask";
 
-export function getSuggestions(activeEditor: vscode.TextEditor) {
-  console.log("getSuggestions");
-
+export async function getSuggestions(activeEditor: vscode.TextEditor) {
   const text = activeEditor?.document.getText();
   if (!text) {
     return [];
@@ -16,24 +14,19 @@ export function getSuggestions(activeEditor: vscode.TextEditor) {
     return [];
   }
 
-  console.log(mousePosition);
-
-  fetch(url, {
+  // await fetched suggestions
+  const response = await fetch(url, {
     method: "POST",
-    body: JSON.stringify({ text, line: mousePosition.line }),
-    headers: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-
-  console.log("getSuggestions end");
-  return [];
+    body: JSON.stringify({
+      text,
+      line: mousePosition.line,
+    }),
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  if (!data || !data.suggestions) {
+    return [];
+  }
+  return data.suggestions as [[string, number, number], string][];
 }

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { getSuggestions } from "./autocorrect";
 
 // this method is called when vs code is activated
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
   console.log("decorator sample is activated");
 
   let timeout: NodeJS.Timer | undefined = undefined;
@@ -34,34 +34,28 @@ export function activate(context: vscode.ExtensionContext) {
 
   let activeEditor = vscode.window.activeTextEditor;
 
-  function updateDecorations() {
-    if (!activeEditor) {
+  async function updateDecorations() {
+    if (activeEditor === undefined) {
       return;
     }
-    const regEx = /\d+/g;
-    const text = activeEditor.document.getText();
-    const suggestions = getSuggestions(activeEditor);
-    console.log("Suggestions", suggestions);
-    const smallNumbers: vscode.DecorationOptions[] = [];
-    const largeNumbers: vscode.DecorationOptions[] = [];
-    let match;
-    while ((match = regEx.exec(text))) {
-      const startPos = activeEditor.document.positionAt(match.index);
-      const endPos = activeEditor.document.positionAt(
-        match.index + match[0].length
-      );
-      const decoration = {
-        range: new vscode.Range(startPos, endPos),
-        hoverMessage: "Number **" + match[0] + "**",
-      };
-      if (match[0].length < 3) {
-        smallNumbers.push(decoration);
-      } else {
-        largeNumbers.push(decoration);
+    const suggestions = await getSuggestions(activeEditor);
+
+    const suggestionDecorations: vscode.DecorationOptions[] = suggestions.map(
+      (suggestion) => {
+        const startPos = activeEditor!.document.positionAt(suggestion[0][1]);
+        const endPos = activeEditor!.document.positionAt(suggestion[0][2]);
+        const decoration = {
+          range: new vscode.Range(startPos, endPos),
+          hoverMessage: suggestion[1],
+        };
+        return decoration;
       }
-    }
-    activeEditor.setDecorations(smallNumberDecorationType, smallNumbers);
-    activeEditor.setDecorations(largeNumberDecorationType, largeNumbers);
+    );
+
+    activeEditor.setDecorations(
+      largeNumberDecorationType,
+      suggestionDecorations
+    );
   }
 
   function triggerUpdateDecorations(throttle = false) {
