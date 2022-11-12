@@ -6,18 +6,26 @@
   "engines": {
     "vscode": "^1.73.0"
   },
+  "repository": {
+    "url": "https://github.com/avgupta456/yhack-mini"
+  },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:autocorrect.helloWorld"
+    "*"
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
+    "colors": [
       {
-        "command": "autocorrect.helloWorld",
-        "title": "Hello World"
+        "id": "myextension.largeNumberBackground",
+        "description": "Background decoration color for large numbers",
+        "defaults": {
+          "dark": "#FF000055",
+          "light": "#FF000055",
+          "highContrast": "#FF000055"
+        }
       }
     ]
   },
